@@ -1,31 +1,62 @@
 <?php
-require_once '../config/db.php';
+require_once '../config/db.php'; // Adjust the path as needed
 
-// Check if the form was submitted
+// Initialize variables to store error messages
+$errors = [];
+
+// Set default role
+$default_role = 'user';
+
+// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+    // Get user input and validate
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
-    $role = $_POST['role']; // Role field
+    $role = $default_role; // Use default role
 
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Prepare and execute SQL statement
-    $sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
-    $stmt = $link->prepare($sql);
-    $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
-
-    if ($stmt->execute()) {
-        echo "Registration successful!";
-    } else {
-        echo "Error: " . $stmt->error;
+    // Validate user input
+    if (empty($username) || empty($email) || empty($password)) {
+        $errors[] = "All fields are required.";
     }
-
+    
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    }
+    
+    // Check if the username or email already exists
+    $stmt = $link->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
+    $stmt->bind_param("ss", $username, $email);
+    $stmt->execute();
+    $stmt->store_result();
+    
+    if ($stmt->num_rows > 0) {
+        $errors[] = "Username or email already exists.";
+    }
+    
     $stmt->close();
+    
+    // If there are no errors, proceed with registration
+    if (empty($errors)) {
+        // Hash the password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        
+        // Prepare and execute SQL statement
+        $sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
+        $stmt = $link->prepare($sql);
+        $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
+        
+        if ($stmt->execute()) {
+            $message = "Registration successful!";
+        } else {
+            $errors[] = "Error: " . $stmt->error;
+        }
+        
+        $stmt->close();
+    }
+    
+    $link->close();
 }
-
-$link->close();
 ?>
 
 <!DOCTYPE html>
@@ -37,22 +68,33 @@ $link->close();
 </head>
 <body>
     <h2>Register</h2>
+    
+    <?php if (!empty($errors)): ?>
+        <div style="color: red;">
+            <ul>
+                <?php foreach ($errors as $error): ?>
+                    <li><?php echo htmlspecialchars($error); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php elseif (isset($message)): ?>
+        <div style="color: green;">
+            <?php echo htmlspecialchars($message); ?>
+        </div>
+    <?php endif; ?>
+    
     <form action="register.php" method="post">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
+        <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username ?? ''); ?>" required><br><br>
         
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required><br><br>
         
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
-
-        <label for="role">Role:</label>
-        <select id="role" name="role">
-            <option value="user" selected>User</option>
-            <!-- Admin role should be handled differently -->
-        </select><br><br>
-
+        
+        <!-- Role is set by default in PHP and not shown in the form -->
+        
         <button type="submit">Register</button>
     </form>
 </body>
