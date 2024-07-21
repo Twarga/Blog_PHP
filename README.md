@@ -22,11 +22,11 @@
 - [x] Destroy user session and redirect to the login page.
 
 ## Module 4: Blog Post Management
-- [ ] Create a form for post creation.
-- [ ] Save post data to the database.
-- [ ] Associate posts with the logged-in user.
-- [ ] Fetch and display posts from the database.
-- [ ] Show post details (title, body, author, date).
+- [x] Create a form for post creation.
+- [x] Save post data to the database.
+- [x] Associate posts with the logged-in user.
+- [x] Fetch and display posts from the database.
+- [x] Show post details (title, body, author, date).
 
 ## Module 5: Layout and Styling
 - [ ] Create reusable header and footer files.
