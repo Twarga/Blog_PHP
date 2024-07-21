@@ -1,12 +1,18 @@
 <?php
 require_once '../config/db.php';
+session_start();
 
-// Check if the form was submitted
+// Ensure the user is logged in and is an admin
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $role = $_POST['role']; // New field for role
+    $role = $_POST['role'];
 
     // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -17,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
 
     if ($stmt->execute()) {
-        echo "Registration successful!";
+        echo "User created successfully!";
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -33,11 +39,11 @@ $link->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Create Admin</title>
 </head>
 <body>
-    <h2>Register</h2>
-    <form action="register.php" method="post">
+    <h2>Create Admin</h2>
+    <form action="admin_register.php" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         
@@ -48,12 +54,9 @@ $link->close();
         <input type="password" id="password" name="password" required><br><br>
 
         <label for="role">Role:</label>
-        <select id="role" name="role">
-            <option value="user" selected>User</option>
-            <option value="admin">Admin</option>
-        </select><br><br>
+        <input type="hidden" id="role" name="role" value="admin"><br><br>
 
-        <button type="submit">Register</button>
+        <button type="submit">Create Admin</button>
     </form>
 </body>
 </html>
