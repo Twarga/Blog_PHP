@@ -1,9 +1,7 @@
 <?php
-// Include database configuration and session management
 require_once '../config/db.php';
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -40,9 +38,21 @@ if ($stmt = $link->prepare($sql)) {
         <ul>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <li>
-                    <a href="post_details.php?id=<?php echo htmlspecialchars($row['id']); ?>">
-                        <?php echo htmlspecialchars($row['title']); ?>
-                    </a> (<?php echo htmlspecialchars($row['created_at']); ?>)
+                    <strong><?php echo htmlspecialchars($row['title']); ?></strong>
+                    <em>By you on <?php echo htmlspecialchars($row['created_at']); ?></em>
+                    <p><?php
+                        // Displaying a snippet of the post body
+                        $body_query = "SELECT LEFT(body, 100) as body_snippet FROM posts WHERE id = ?";
+                        if ($body_stmt = $link->prepare($body_query)) {
+                            $body_stmt->bind_param("i", $row['id']);
+                            $body_stmt->execute();
+                            $body_result = $body_stmt->get_result();
+                            $body_row = $body_result->fetch_assoc();
+                            echo htmlspecialchars($body_row['body_snippet']) . '...';
+                            $body_stmt->close();
+                        }
+                    ?></p>
+                    <a href="edit_post.php?id=<?php echo htmlspecialchars($row['id']); ?>">Edit</a>
                 </li>
             <?php endwhile; ?>
         </ul>
