@@ -14,12 +14,12 @@
 - [x] Define tables: `users`, `posts`.
 
 ## Module 3: User Authentication
-- [ ] Create a registration form.
-- [ ] Handle user input and save it to the database.
-- [ ] Hash passwords before saving.
-- [ ] Create a login form.
-- [ ] Validate user credentials and start a session.
-- [ ] Destroy user session and redirect to the login page.
+- [x] Create a registration form.
+- [x] Handle user input and save it to the database.
+- [x] Hash passwords before saving.
+- [x] Create a login form.
+- [x] Validate user credentials and start a session.
+- [x] Destroy user session and redirect to the login page.
 
 ## Module 4: Blog Post Management
 - [ ] Create a form for post creation.
