@@ -1,38 +1,30 @@
 <?php
-// Include database configuration and session management
 require_once '../config/db.php';
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
+// Ensure user is logged in and is an admin
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get user input
     $title = $_POST['title'];
     $body = $_POST['body'];
     $user_id = $_SESSION['user_id'];
 
-    // Prepare and execute SQL statement
     $sql = "INSERT INTO posts (title, body, user_id) VALUES (?, ?, ?)";
-    if ($stmt = $link->prepare($sql)) {
-        $stmt->bind_param("ssi", $title, $body, $user_id);
+    $stmt = $link->prepare($sql);
+    $stmt->bind_param("ssi", $title, $body, $user_id);
 
-        if ($stmt->execute()) {
-            echo "Post created successfully!";
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
+    if ($stmt->execute()) {
+        echo "Post created successfully!";
     } else {
-        echo "Error preparing statement: " . $link->error;
+        echo "Error: " . $stmt->error;
     }
-}
 
-$link->close();
+    $stmt->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,14 +35,14 @@ $link->close();
     <title>Create Post</title>
 </head>
 <body>
-    <h2>Create a New Post</h2>
+    <h2>Create New Post</h2>
     <form action="create_post.php" method="post">
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" required><br><br>
-
+        
         <label for="body">Body:</label>
-        <textarea id="body" name="body" rows="5" required></textarea><br><br>
-
+        <textarea id="body" name="body" required></textarea><br><br>
+        
         <button type="submit">Create Post</button>
     </form>
 </body>

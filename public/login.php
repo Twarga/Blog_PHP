@@ -1,49 +1,32 @@
 <?php
-// Enable error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Include database configuration
-require_once '../config/db.php';  // Corrected path to db.php
-
-session_start();  // Start a session
+require_once '../config/db.php';
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get user input
-    $email = $_POST['email'];
-    $pass = $_POST['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    // Prepare and execute SQL statement
-    $sql = "SELECT id, password FROM users WHERE email = ?";
-    if ($stmt = $link->prepare($sql)) {
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows == 1) {
-            $user = $result->fetch_assoc();
-            if (password_verify($pass, $user['password'])) {
-                // Password is correct, start session
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['logged_in'] = true;
-                header("Location: dashboard.php");  // Redirect to a logged-in page
-                exit();
-            } else {
-                echo "Invalid password.";
-            }
+    $sql = "SELECT id, password, role FROM users WHERE username = ?";
+    $stmt = $link->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows == 1) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_role'] = $user['role'];
+            header("Location: dashboard.php");
+            exit;
         } else {
-            echo "User not found.";
+            echo "Invalid password.";
         }
-
-        $stmt->close();
     } else {
-        echo "Error preparing statement: " . $link->error;
+        echo "User not found.";
     }
+    $stmt->close();
 }
-
-// Close database connection
-$link->close();
 ?>
 
 <!DOCTYPE html>
@@ -56,8 +39,8 @@ $link->close();
 <body>
     <h2>Login</h2>
     <form action="login.php" method="post">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
         
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
