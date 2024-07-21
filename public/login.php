@@ -6,18 +6,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // Prepare and execute SQL statement
     $sql = "SELECT id, password, role FROM users WHERE username = ?";
     $stmt = $link->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result->num_rows == 1) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
+            // Login successful
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_role'] = $user['role'];
-            header("Location: dashboard.php");
+            header("Location: dashboard.php"); // Redirect to dashboard or other page
             exit;
         } else {
             echo "Invalid password.";
@@ -25,8 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "User not found.";
     }
+
     $stmt->close();
 }
+
+$link->close();
 ?>
 
 <!DOCTYPE html>

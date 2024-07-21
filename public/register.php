@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $role = $_POST['role']; // New field for role
+    $role = $_POST['role']; // Role field
 
     // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -50,7 +50,7 @@ $link->close();
         <label for="role">Role:</label>
         <select id="role" name="role">
             <option value="user" selected>User</option>
-            <option value="admin">Admin</option>
+            <!-- Admin role should be handled differently -->
         </select><br><br>
 
         <button type="submit">Register</button>
