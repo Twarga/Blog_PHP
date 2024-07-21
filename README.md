@@ -7,11 +7,11 @@
 
 ## 2. User Authentication
 ### 2.1 Registration
-- [ ] Create registration form (username, email, password, role)
-- [ ] Implement server-side registration logic
-- [ ] Hash passwords before saving
-- [ ] Validate user input
-- [ ] Add role management (admin or user)
+- [x] Create registration form (username, email, password, role)
+- [x] Implement server-side registration logic
+- [x] Hash passwords before saving
+- [x] Validate user input
+- [x] Add role management (admin or user)
 
 ### 2.2 Login
 - [ ] Create login form (email, password)
