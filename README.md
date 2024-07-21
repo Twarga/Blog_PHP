@@ -8,10 +8,10 @@
 - [x] Create subfolders: `public`, `includes`, `admin`, `css`, `js`.
 
 ## Module 2: Database Management
-- [ ] Create a database configuration file.
-- [ ] Define database connection parameters (host, database name, username, password).
-- [ ] Create a script to initialize the database.
-- [ ] Define tables: `users`, `posts`.
+- [x] Create a database configuration file.
+- [x] Define database connection parameters (host, database name, username, password).
+- [x] Create a script to initialize the database.
+- [x] Define tables: `users`, `posts`.
 
 ## Module 3: User Authentication
 - [ ] Create a registration form.
