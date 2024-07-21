@@ -1,103 +1,75 @@
- 
-# PHP Blog Website To-Do List
+# Blog Website Project Outline
 
-## Module 1: Project Setup
-- [x] Install LAMP Stack
-- [x] Install a code editor (e.g., Visual Studio Code).
-- [x] Create project folder `my_blog`.
-- [x] Create subfolders: `public`, `includes`, `admin`, `css`, `js`.
+## 1. Project Setup
+- [x] Create project directory structure
+- [x] Set up version control (e.g., Git)
+- [x] Configure database and create initial tables
 
-## Module 2: Database Management
-- [x] Create a database configuration file.
-- [x] Define database connection parameters (host, database name, username, password).
-- [x] Create a script to initialize the database.
-- [x] Define tables: `users`, `posts`.
+## 2. User Authentication
+### 2.1 Registration
+- [ ] Create registration form (username, email, password, role)
+- [ ] Implement server-side registration logic
+- [ ] Hash passwords before saving
+- [ ] Validate user input
+- [ ] Add role management (admin or user)
 
-## Module 3: User Authentication
-- [x] Create a registration form.
-- [x] Handle user input and save it to the database.
-- [x] Hash passwords before saving.
-- [x] Create a login form.
-- [x] Validate user credentials and start a session.
-- [x] Destroy user session and redirect to the login page.
+### 2.2 Login
+- [ ] Create login form (email, password)
+- [ ] Implement server-side login logic
+- [ ] Validate user credentials
+- [ ] Start user session and set session variables
+- [ ] Redirect based on user role
 
-## Module 4: Blog Post Management
-- [x] Create a form for post creation.
-- [x] Save post data to the database.
-- [x] Associate posts with the logged-in user.
-- [x] Fetch and display posts from the database.
-- [x] Show post details (title, body, author, date).
+### 2.3 Logout
+- [ ] Implement logout functionality
+- [ ] Destroy user session and redirect to login page
 
-## Module 5: Layout and Styling
-- [ ] Create reusable header and footer files.
-- [ ] Include navigation links (Home, About, Contact, Login, Register, Create Post).
-- [ ] Create a CSS file for styling.
-- [ ] Define styles for header, footer, and main content.
+## 3. User Functionality
+### 3.1 Viewing Posts
+- [ ] Create a page to list all posts
+- [ ] Implement search functionality
+- [ ] Display post details (title, body, author, date)
 
-## Module 6: Advanced Features (Optional)
-- [ ] Create a commenting system for posts.
-- [ ] Allow users to add, edit, and delete comments.
-- [ ] Create user profile pages.
-- [ ] Display user information and their posts.
-- [ ] Organize posts into categories and tags.
-- [ ] Allow users to filter posts by category and tag.
-- [ ] Implement search functionality to find posts.
-- [ ] Provide a search form and display search results.
+### 3.2 Interaction
+- [ ] Implement like/dislike functionality
+- [ ] Allow users to comment on posts
+- [ ] Save interactions to the database
 
-## Module 7: Deployment
-- [ ] Select a hosting provider that supports PHP and MySQL.
-- [ ] Upload project files to the hosting provider.
-- [ ] Configure the database on the hosting server.
-- [ ] Register a domain name.
-- [ ] Set up SSL for secure connections.
-# PHP Blog Website To-Do List
+## 4. Admin Functionality
+### 4.1 Admin Dashboard
+- [ ] Create an admin dashboard page
+- [ ] Implement post management (create, update, view, delete)
+- [ ] View and manage user interactions (comments, likes, dislikes)
 
-## Module 1: Project Setup
-- [ ] Install XAMPP/WAMP.
-- [ ] Install a code editor (e.g., Visual Studio Code).
-- [ ] Create project folder `my_blog`.
-- [ ] Create subfolders: `public`, `includes`, `admin`, `css`, `js`.
+### 4.2 Post Management
+- [ ] Create form for creating new posts
+- [ ] Implement server-side logic for creating, updating, and deleting posts
+- [ ] Associate posts with the logged-in user
+- [ ] Fetch and display posts from the database
 
-## Module 2: Database Management
-- [ ] Create a database configuration file.
-- [ ] Define database connection parameters (host, database name, username, password).
-- [ ] Create a script to initialize the database.
-- [ ] Define tables: `users`, `posts`.
+## 5. Security
+- [ ] Validate and sanitize all user input
+- [ ] Protect against SQL injection and XSS attacks
+- [ ] Use HTTPS for secure data transmission
 
-## Module 3: User Authentication
-- [ ] Create a registration form.
-- [ ] Handle user input and save it to the database.
-- [ ] Hash passwords before saving.
-- [ ] Create a login form.
-- [ ] Validate user credentials and start a session.
-- [ ] Destroy user session and redirect to the login page.
+## 6. Testing
+- [ ] Test user registration and login
+- [ ] Verify post creation, editing, and deletion
+- [ ] Check user interactions (likes, dislikes, comments)
+- [ ] Test admin functionalities
 
-## Module 4: Blog Post Management
-- [ ] Create a form for post creation.
-- [ ] Save post data to the database.
-- [ ] Associate posts with the logged-in user.
-- [ ] Fetch and display posts from the database.
-- [ ] Show post details (title, body, author, date).
+## 7. Deployment
+- [ ] Prepare deployment environment
+- [ ] Deploy the application to a live server
+- [ ] Perform final testing on the live environment
+- [ ] Set up monitoring and backups
 
-## Module 5: Layout and Styling
-- [ ] Create reusable header and footer files.
-- [ ] Include navigation links (Home, About, Contact, Login, Register, Create Post).
-- [ ] Create a CSS file for styling.
-- [ ] Define styles for header, footer, and main content.
+## 8. Documentation
+- [ ] Document code and functionality
+- [ ] Create user guides and admin manuals
+- [ ] Write a README file for the project
 
-## Module 6: Advanced Features (Optional)
-- [ ] Create a commenting system for posts.
-- [ ] Allow users to add, edit, and delete comments.
-- [ ] Create user profile pages.
-- [ ] Display user information and their posts.
-- [ ] Organize posts into categories and tags.
-- [ ] Allow users to filter posts by category and tag.
-- [ ] Implement search functionality to find posts.
-- [ ] Provide a search form and display search results.
-
-## Module 7: Deployment
-- [ ] Select a hosting provider that supports PHP and MySQL.
-- [ ] Upload project files to the hosting provider.
-- [ ] Configure the database on the hosting server.
-- [ ] Register a domain name.
-- [ ] Set up SSL for secure connections.
+## 9. Maintenance
+- [ ] Regularly update the application
+- [ ] Fix bugs and address user feedback
+- [ ] Monitor for security vulnerabilities
