@@ -1,5 +1,11 @@
 <?php
-include 'config/db.php'; // Include the database connection
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Include database configuration
+require_once '../config/db.php';  // Corrected path to db.php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get user input
@@ -12,19 +18,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Prepare and execute SQL statement
     $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $user, $email, $hashed_password);
+    if ($stmt = $link->prepare($sql)) {
+        $stmt->bind_param("sss", $user, $email, $hashed_password);
 
-    if ($stmt->execute()) {
-        echo "Registration successful!";
+        if ($stmt->execute()) {
+            echo "Registration successful!";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error preparing statement: " . $link->error;
     }
-
-    $stmt->close();
 }
 
-$conn->close();
+// Close database connection
+$link->close();
 ?>
 
 <!DOCTYPE html>
